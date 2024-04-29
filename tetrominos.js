@@ -11,7 +11,7 @@ function TetrominoesRotationX(tetromino, isClockwise) {
   for (let i = 0; i < N; i++) {
     rotatedTetromino.push([]);
     for (let j = 0; j < N; j++) {
-      rotatedTetromino[i][j] = isClockwise ? tetromino[N - j - 1][i] : tetromino[j][N - i - 1];
+      rotatedTetromino[i][j] = isClockwise ? tetromino[N - j - 1][i] : tetromino[j][N - i - 1];//solo es un bucle for porque no se necesita la posicion x solo la y,z
     }
   }
 
@@ -27,11 +27,10 @@ function TetrominoesRotationY(tetromino, isClockwise) {
     for (let j = 0; j < N; j++) {
       rotatedTetromino[k].push([]);
       for (let i = 0; i < N; i++) {
-        rotatedTetromino[k][j][i] = isClockwise ? tetromino[k][i][j] : tetromino[k][j][i];
+        rotatedTetromino[k][j][i] = isClockwise ? tetromino[ N - i - 1][j][k] : tetromino[i][j][N - k - 1];
       }
     }
   }
-
   return rotatedTetromino;
 }
 

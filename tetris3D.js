@@ -37,15 +37,15 @@ function draw() {
 
 function keyPressed() {
   if (key === 'x' || key === 'X') {
-    tetrominoTemporal = TetrominoesRotationX(tetrominoTemporal, true);
+    tetrominoTemporal = TetrominoesRotationX(tetrominoTemporal, false);
     redraw();
   }
   if (key === 'y' || key === 'Y') {
-   tetrominoTemporal = TetrominoesRotationY(tetrominoTemporal, true);
+   tetrominoTemporal = TetrominoesRotationY(tetrominoTemporal, false);
     redraw();
   }
   if (key === 'z' || key === 'Z') {
-   tetrominoTemporal = TetrominoesRotationZ(tetrominoTemporal, true);
+   tetrominoTemporal = TetrominoesRotationZ(tetrominoTemporal, false);
     redraw();
   }
 }
