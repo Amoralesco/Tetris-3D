@@ -5,8 +5,8 @@
 //generar un tetromino en la matriz y mostrarlo en pantalla// DONE
 //caida del tetromino// DONE
 //logica de colisiones de los tetrominos horizontal
-//logica de colisiones de los tetrominos vertical
-//logica de filas cubiertas
+//logica de colisiones de los tetrominos vertical 
+//logica de filas cubiertas // DONE 
 //rotaciones de la camara con el mouse //DONE
 //logica de velocidad de caida de la ficha
 //renderizado de las fichas y del tablero
@@ -59,7 +59,7 @@ function draw() {
 
 function keyPressed() {
   if (key === 'x' || key === 'X') {
-     desk.TetrominoRotar(1,true);
+     desk.TetrominoRotar(3,true);
      drawTablero(x,y,z, desk.tablero);
      redraw();
   }
@@ -69,7 +69,7 @@ function keyPressed() {
      redraw();
   }
   if (key === 'z' || key === 'Z') {
-     desk.TetrominoRotar(3,true);
+     desk.TetrominoRotar(1,true);
      drawTablero(x,y,z, desk.tablero);
      
      redraw();

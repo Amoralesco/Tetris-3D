@@ -8,7 +8,7 @@
      }
      
        generarTetrominoTemporal() { //elegir aleatoriamente el siguiente tetromino
-         const tetrominosDisponibles = [Tcuadrado, Tlinea, TetroT, TetroZizquierda, TetroZderecha, TetroLderecha, TetroLizquierda];
+         const tetrominosDisponibles = [Tcuadrado,Tlinea,TetroT,TetroZizquierda,TetroZderecha, TetroLderecha,TetroLizquierda];
          const tetrominoAleatorio = tetrominosDisponibles[Math.floor(Math.random() * tetrominosDisponibles.length)];
          return tetrominoAleatorio;
       } 
@@ -213,7 +213,7 @@
    actualizarTablero() {
     const N = this.tetromino.show.length;
     const S = this.tetromino.espacioLadoY();
-    //console.log("S",S,this.tetromino.y,this.tetromino.y + S)
+    
     if(this.tetromino.y + S <= 0) {
       this.fall = false;
       return;
@@ -227,11 +227,9 @@
                let x = this.tetromino.x + i;
                if(this.tetromino.show[j][k][i]!= 0  && this.tablero[z][y - 1][x]!= 0){
                  if(k == 0){
-                   console.log(y-1);
                    this.fall = false;
                    return;
                  }else if(this.tetromino.show[j][k-1][i] == 0){
-                   console.log(y-1);
                    this.fall = false;
                    return;
                  }              
@@ -281,15 +279,51 @@
 
             const N = this.tetromino.show.length;    
             const S = this.tetromino.espacioLadoZ(isPositive);
-            const A = this.tetromino.espacioLadoX(true);
-            const B = this.tetromino.espacioLadoX(false);
-            console.log(this.tetromino.z,N,S,this.tetromino.z+N-S ,  this.tetromino.z+S)
             if(isPositive && 10 <= this.tetromino.z+N-S){
               return;
             }
             if(!isPositive && 0 >= this.tetromino.z+S){
               return;
             }
+            
+         
+             if(isPositive){
+               for (let j = N - 1 ; j >= 0; j--) {
+                 for (let k = 0 ; k < N; k++) {                
+                    for (let i = 0; i < N; i++) {              
+                       let z = this.tetromino.z + j;
+                       let y = this.tetromino.y + k;
+                       let x = this.tetromino.x + i;
+                         if(this.tetromino.show[j][k][i]!= 0  && this.tablero[z+1][y][x]!= 0){                           
+                           if(j == N - 1){
+                             return;
+                           }else if(this.tetromino.show[j+1][k][i] == 0){
+                             return;
+                           }              
+                         }                     
+                    }
+                 }
+               }
+            }
+            
+            else{
+              for (let k = 0; k < N; k++) {
+                for (let j = 0; j < N; j++) {
+                    for (let i = 0; i < N; i++) {              
+                       let z = this.tetromino.z + j;
+                       let y = this.tetromino.y + k;
+                       let x = this.tetromino.x + i;
+                       if(this.tetromino.show[j][k][i]!= 0  && this.tablero[z-1][y][x]!= 0){
+                              if(j == 0){
+                                   return;
+                              }else if(this.tetromino.show[j-1][k][i] == 0){
+                                   return;
+                              }              
+                         }                     
+                    }
+                 }
+               }                                  
+            }                     
               for (let k = 0; k < N; k++) {
                 for (let j = 0; j < N; j++) {
                   for (let i = 0; i < N; i++) {
@@ -304,7 +338,7 @@
                         if(this.tetromino.z+k+1 <= 10 && this.tetromino.show[k][j][i]!= 0){this.tablero[this.tetromino.z+k+1][this.tetromino.y+j][this.tetromino.x+i] = this.tetromino.show[k][j][i];}
                           
                       }else{
-                        if(this.tetromino.z+k-1 >= 0 && this.tetromino.show[k][j][i]!= 0 ){this.tablero[this.tetromino.z+k-1][this.tetromino.y+j][this.tetromino.x+i] = this.tetromino.show[k][j][i];}
+                        if(this.tetromino.z+k-1 >= 0 && this.tetromino.show[k][j][i]!= 0){this.tablero[this.tetromino.z+k-1][this.tetromino.y+j][this.tetromino.x+i] = this.tetromino.show[k][j][i];}
                           
                       }  
                   }
@@ -314,19 +348,57 @@
         }
         
         
+        
+        
    TetrominoTraslationX(isPositive){
-
             const N = this.tetromino.show.length;    
             const S = this.tetromino.espacioLadoX(isPositive);
-            const A = this.tetromino.espacioLadoZ(true);
-            const B = this.tetromino.espacioLadoZ(false);
-            console.log(this.tetromino.x, N,S,this.tetromino.x+N-S ,  this.tetromino.x+S)
             if(isPositive && 10 <= this.tetromino.x+N-S){
               return;
             }
             if(!isPositive && 0 >= this.tetromino.x+S){
               return;
             }
+            
+            
+             if(isPositive){               
+                 for (let k = 0 ; k < N; k++) {  
+                  for (let j = 0 ; j < N; j++) {
+                    for (let i = 0; i < N; i++) {              
+                       let z = this.tetromino.z + j;
+                       let y = this.tetromino.y + k;
+                       let x = this.tetromino.x + i;
+                         if(this.tetromino.show[j][k][i]!= 0  && this.tablero[z][y][x+1]!= 0){                           
+                           if(i == N - 1){
+                             return;
+                           }else if(this.tetromino.show[j][k][i+1] == 0){
+                             return;
+                           }              
+                         }                     
+                    }
+                 }
+               }
+            }
+            
+            else{
+              for (let k = 0; k < N; k++) {
+                for (let j = 0; j < N; j++) {
+                    for (let i = 0; i < N; i++) {              
+                       let z = this.tetromino.z + j;
+                       let y = this.tetromino.y + k;
+                       let x = this.tetromino.x + i;
+                       if(this.tetromino.show[j][k][i]!= 0  && this.tablero[z][y][x-1]!= 0){
+                              if(i == 0){
+                                   return;
+                              }else if(this.tetromino.show[j][k][i-1] == 0){
+                                   return;
+                              }              
+                         }                     
+                    }
+                 }
+               }                                  
+            } 
+     
               for (let k = 0; k < N; k++) {
                 for (let j = 0; j < N; j++) {
                   for (let i = 0; i < N; i++) {
@@ -349,9 +421,13 @@
                this.tetromino.x = isPositive ? this.tetromino.x+1: this.tetromino.x-1;
         }
         
+        
+        
+        
     TetrominoRotar(eje,clockwise) {
     
             const N = this.tetromino.show.length;
+            const temp = this.tetromino.show;
             if(eje == 1){
                  this.tetromino.TetrominoesRotationZ(clockwise);
             }
@@ -362,17 +438,48 @@
                  this.tetromino.TetrominoesRotationX(clockwise);
             }
             
-            
+
             for (let k = 0; k < N; k++) {
                 for (let j = 0; j < N; j++) {
                   for (let i = 0; i < N; i++) {
-                      this.tablero[this.tetromino.z+k][this.tetromino.y+j][this.tetromino.x+i] = this.tetromino.show[k][j][i];
+                      console.log(this.tetromino.z+k, this.tetromino.x+i, this.tetromino.show[k][j][i]);
+                    if((this.tetromino.z+k  < 0 || this.tetromino.x+i  < 0 ||  this.tetromino.z+k  >= 10 || this.tetromino.x+i >= 10 || this.tetromino.y + j <= 0) && this.tetromino.show[k][j][i] != 0){
+                        if(eje == 1){
+                               this.tetromino.TetrominoesRotationZ(!clockwise);
+                          }
+                          if(eje == 2){
+                               this.tetromino.TetrominoesRotationY(!clockwise);
+                          }
+                          if(eje == 3){
+                               this.tetromino.TetrominoesRotationX(!clockwise);
+                          }              
+                      return;
+                    }
+                  }
+                }
+              } 
+              
+            for (let k = 0; k < N; k++) {
+                for (let j = 0; j < N; j++) {
+                  for (let i = 0; i < N; i++) {
+                     if(temp[k][j][i] != 0){this.tablero[this.tetromino.z+k][this.tetromino.y+j][this.tetromino.x+i] = 0;}   
                   }
                 }
               }
-    
-       }
+                
+         
+             console.log("enter");
+            for (let k = 0; k < N; k++) {
+                for (let j = 0; j < N; j++) {
+                  for (let i = 0; i < N; i++) {
+                    if( this.tetromino.show[k][j][i] != 0){this.tablero[this.tetromino.z+k][this.tetromino.y+j][this.tetromino.x+i] = this.tetromino.show[k][j][i];}
+                      
+                  }
+                }
+              }  
+           }
        
+     
        borrarFilasColumnas() {
         for (let y = 0; y < this.filas; y++) {
             let isComplete = true;
@@ -387,14 +494,14 @@
             }
 
             if (isComplete) {
-                // Clear the complete layer
+                // borrar la capa actual
                 for (let z = 0; z < this.profundidad; z++) {
                     for (let x = 0; x < this.columnas; x++) {
                         this.tablero[z][y][x] = 0;
                     }
                 }
 
-                // Move layers above down
+                // Mover las capas superiores
                 for (let layer = y; layer < this.filas - 1; layer++) {
                     for (let z = 0; z < this.profundidad; z++) {
                         for (let x = 0; x < this.columnas; x++) {
@@ -403,7 +510,7 @@
                     }
                 }
 
-                // Clear the top layer
+                // limpiar la capa superior
                 for (let z = 0; z < this.profundidad; z++) {
                     for (let x = 0; x < this.columnas; x++) {
                         this.tablero[z][this.filas - 1][x] = 0;
