@@ -439,10 +439,9 @@
             }
             
 
-            for (let k = 0; k < N; k++) {
+            for (let k = 0; k < N; k++) { // blucle que mira si la rotacion se hace dentro del tablero
                 for (let j = 0; j < N; j++) {
                   for (let i = 0; i < N; i++) {
-                      console.log(this.tetromino.z+k, this.tetromino.x+i, this.tetromino.show[k][j][i]);
                     if((this.tetromino.z+k  < 0 || this.tetromino.x+i  < 0 ||  this.tetromino.z+k  >= 10 || this.tetromino.x+i >= 10 || this.tetromino.y + j <= 0) && this.tetromino.show[k][j][i] != 0){
                         if(eje == 1){
                                this.tetromino.TetrominoesRotationZ(!clockwise);
@@ -459,14 +458,45 @@
                 }
               } 
               
-            for (let k = 0; k < N; k++) {
+               for (let k = 0; k < N; k++) {
+                            for (let j = 0; j < N; j++) {
+                              for (let i = 0; i < N; i++) {
+                                 if(temp[k][j][i] != 0){this.tablero[this.tetromino.z+k][this.tetromino.y+j][this.tetromino.x+i] =0;}   
+                              }
+                            }
+                          }
+          
+              
+              for (let k = 0; k < N; k++) {
                 for (let j = 0; j < N; j++) {
                   for (let i = 0; i < N; i++) {
-                     if(temp[k][j][i] != 0){this.tablero[this.tetromino.z+k][this.tetromino.y+j][this.tetromino.x+i] = 0;}   
+                    if( this.tablero[this.tetromino.z+k][this.tetromino.y+j][this.tetromino.x+i] != 0 &&  this.tetromino.show[k][j][i] != 0){
+                        if(eje == 1){
+                               this.tetromino.TetrominoesRotationZ(!clockwise);
+                          }
+                          if(eje == 2){
+                               this.tetromino.TetrominoesRotationY(!clockwise);
+                          }
+                          if(eje == 3){
+                               this.tetromino.TetrominoesRotationX(!clockwise);
+                          }
+                          console.log("gola");
+                          
+                          for (let k = 0; k < N; k++) {
+                            for (let j = 0; j < N; j++) {
+                              for (let i = 0; i < N; i++) {
+                                 if(temp[k][j][i] != 0){this.tablero[this.tetromino.z+k][this.tetromino.y+j][this.tetromino.x+i] = temp[k][j][i];}   
+                              }
+                            }
+                          }
+                   
+                      return;
+                    }
                   }
                 }
-              }
-                
+              } 
+              
+           
          
              console.log("enter");
             for (let k = 0; k < N; k++) {
