@@ -1,25 +1,185 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
-  <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
-  <script language="javascript" type="text/javascript" src="renders.js"></script>
-  <script language="javascript" type="text/javascript" src="tetrosDefinition.js"></script>
-  <script language="javascript" type="text/javascript" src="tetrosFunction.js"></script>
-  <script language="javascript" type="text/javascript" src="tetris3D.js"></script>
-  <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
-
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+    <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+    <script language="javascript" type="text/javascript" src="renders.js"></script>
+    <script language="javascript" type="text/javascript" src="tetrosDefinition.js"></script>
+    <script language="javascript" type="text/javascript" src="tetrosFunction.js"></script>
+    <script language="javascript" type="text/javascript" src="tetris3D.js"></script>
+    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+  
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+        position: relative;
+        background-color: #f0f0f0;
+      }
+  
+      .container {
+        width: 200px;
+        height: 150px;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+      }
+  
+      .container h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+  
+      .container p {
+        color: #666;
+        margin-bottom: 5px;
+      }
+  
+      .lost-card {
+        display: none; /* Por defecto oculto */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 8px;
+        color: #fff;
+      }
+  
+      .lost-card button {
+        background-color: #fff;
+        color: #333;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      
+     .music-control-card {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
     }
-  </style>
-</head>
+    
+    .music-control-card h3 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .music-control-card button {
+      background-color: #fff;
+      color: #333;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  
+  
+      
+    </style>
+  </head>
 
-<body>
-</body>
+  <body>
+    
+        <!-- Tarjeta de "Perdiste" -->
+        <div class="lost-card" id="lostCard">
+          <h2>¡Perdiste!</h2>
+          <p>Tu puntaje: <span id="lostScore">0</span></p>
+          <button onclick="restartGame()">Reiniciar</button>
+        </div>
+        
+        <div class="container">
+          <h2>Tetris</h2>
+          <p>Puntaje: <span id="score">0</span></p>
+          <p>Nivel: <span id="level">1</span></p>
+          <p>Líneas completadas: <span id="lines">0</span></p>
+        </div>
+        
+        <div class="container">
+          <h2>Tetris</h2>
+          <p>Puntaje: <span id="score">0</span></p>
+          <p>Nivel: <span id="level">1</span></p>
+          <p>Líneas completadas: <span id="lines">0</span></p>
+        </div>
+        
+        <!-- Card para el botón de reproducir música -->
+        <div class="music-control-card">
+          <h3>Control de música</h3>
+          <button onclick="toggleMusic()">Reproducir música</button>
+        </div>
+    
+    
+      <div class="instructions-card" style="position: absolute; top: 20px; right: 20px; background-color: rgba(255, 255, 255, 0.8); color: #333; padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h3>Instrucciones del juego Tetris</h3>
+        <p>Aquí puedes agregar tus instrucciones:</p>
+        <ul>
+        <li> Usa el mouse para mover libremente la vista .</li>
+          <li>Usa W/S para mover la pieza en el eje X (Rojo).</li>
+          <li>Usa A/D para mover la pieza en el eje Z (Azul).</li>
+           <li>Usa la barra espaciadora para que la pieza caiga rapidamente.</li>
+            <li> Usa la tecla "X" para rotar la figura en el eje  X  en el sentido de las manecillas del reloj(Rojo).</li>
+             <li> Usa la tecla "Y" para rotar la figura en el eje  Y  en el sentido de las manecillas del reloj(verde).</li>
+             <li> Usa la tecla "Z" para rotar la figura en el eje  Z  en el sentido de las manecillas del reloj(azul).</li>
+             <li> Da click en el boton de "Reproducir musica" para escuchar la musica de tetris.</li>
+             <li> Usa el axis en la parte inferior del tablero para guiarte .</li>
+             <li> diviertete ;) .</li>    
+        </ul>
+      </div>
+  
+  
+  
+    <script>
+      function showLostCard(score) {
+        document.getElementById("lostScore").innerText = score;
+        document.getElementById("lostCard").style.display = "block";
+      }
+    
+      function hideLostCard() {
+        document.getElementById("lostCard").style.display = "none";
+      }
+    
+      
+      function restartGame() {
+          hideLostCard(); 
+      
+        desk = new Tablero(10, 24, 10);
+        desk.ingresarTetromino();
+        desk.velocidadCaida();
+        updateInfoCard();
+        redraw();
+      }
+    
+      let musicPlaying = false; 
+      let volumenMusica = 0.1; 
+      
+      
+      function toggleMusic() {
+        if (musicPlaying) {
+          mySound.pause(); 
+        } else {
+          playSound(); 
+        }
+      
+      }
+    
+     </script>
+  
+  </body>
 </html>
